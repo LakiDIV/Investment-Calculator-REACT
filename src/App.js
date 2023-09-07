@@ -16,25 +16,33 @@ function App() {
     const yearlyContribution = +userInput["yearlyContribution"]; // as mentioned: feel free to change the shape...
     const expectedReturn = +userInput["expectedReturn"] / 100;
     const duration = +userInput["duration"];
+    const totalCapital = 0;
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
 
     // The below code calculates yearly results (total savings, interest etc)
     for (let i = 0; i < duration; i++) {
       const yearlyInterest = currentSavings * expectedReturn;
       currentSavings += yearlyInterest + yearlyContribution;
+      const totalCapital = currentSavings;
       yearlyData.push({
         // feel free to change the shape of the data pushed to the array!
         year: i + 1,
-        yearlyInterest: yearlyInterest,
-        savingsEndOfYear: currentSavings,
+        yearlyInterest: formatter.format(yearlyInterest),
+        savingsEndOfYear: formatter.format(currentSavings),
         yearlyContribution: yearlyContribution,
+        investedCapital: formatter.format(totalCapital),
       });
     }
 
     // do something with yearlyData ...
     setYearlyData(yearlyData);
   };
-
-  console.log(yearlyData);
 
   return (
     <div>

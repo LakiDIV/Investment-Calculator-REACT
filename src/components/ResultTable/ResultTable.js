@@ -1,6 +1,7 @@
 import React from "react";
 
 function ResultTable({yearlyData}) {
+  
   return (
     <table className="result">
       <thead>
@@ -18,8 +19,8 @@ function ResultTable({yearlyData}) {
             <td>{yearlyValues.year}</td>
             <td>{yearlyValues.savingsEndOfYear}</td>
             <td>{yearlyValues.yearlyInterest}</td>
-            <td>TOTAL INTEREST GAINED</td>
-            <td>TOTAL INVESTED CAPITAL</td>
+            <td>{yearlyValues.yearlyContribution}</td>
+            <td>{yearlyValues.investedCapital}</td>
           </tr>
         ))}
       </tbody>
