@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Header from "./components/Header/Header";
-import InputForm from "./components/InputForm/InputForm";
+import UserInput from "./components/UserInput/UserInput";
 import ResultTable from "./components/ResultTable/ResultTable";
 
 function App() {
@@ -47,10 +47,7 @@ function App() {
   return (
     <div>
       <Header />
-      <InputForm onSubmit={calculateHandler} />
-
-      {/* Todo: Show below table conditionally (only once result data is available) */}
-      {/* Show fallback text if no data is available */}
+      <UserInput onSubmit={calculateHandler} />
 
       {yearlyData.length > 0 ? (
         <ResultTable yearlyData={yearlyData} />

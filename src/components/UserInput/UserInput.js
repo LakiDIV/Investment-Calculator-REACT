@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function InputForm({ onSubmit }) {
+function UserInput({ onSubmit }) {
   const [currentSavings, setCurrentSavings] = useState("");
   const [yearlyContribution, setYearlyContribution] = useState("");
   const [expectedReturn, setExpectedReturn] = useState("");
@@ -22,8 +22,7 @@ function InputForm({ onSubmit }) {
     setYearlyContribution("");
     setExpectedReturn("");
     setDuration("");
-
-    onSubmit('')
+    onSubmit("");
   };
 
   return (
@@ -82,4 +81,4 @@ function InputForm({ onSubmit }) {
   );
 }
 
-export default InputForm;
+export default UserInput;
