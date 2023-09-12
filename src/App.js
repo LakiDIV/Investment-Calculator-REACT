@@ -7,7 +7,6 @@ function App() {
   const [yearlyData, setYearlyData] = useState([]);
 
   const calculateHandler = (userInput) => {
-    // Should be triggered when form is submitted
     // You might not directly want to bind it to the submit event on the form though...
 
     const yearlyData = []; // per-year results
@@ -16,7 +15,7 @@ function App() {
     const yearlyContribution = +userInput["yearlyContribution"]; // as mentioned: feel free to change the shape...
     const expectedReturn = +userInput["expectedReturn"] / 100;
     const duration = +userInput["duration"];
-    const totalCapital = 0;
+    let totalCapital = 0;
 
     const formatter = new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -27,15 +26,17 @@ function App() {
 
     // The below code calculates yearly results (total savings, interest etc)
     for (let i = 0; i < duration; i++) {
+      const year = i + 1;
       const yearlyInterest = currentSavings * expectedReturn;
       currentSavings += yearlyInterest + yearlyContribution;
-      const totalCapital = currentSavings;
+      const savingsEndOfYear = currentSavings + yearlyContribution;
+      totalCapital = currentSavings + savingsEndOfYear * year;
       yearlyData.push({
         // feel free to change the shape of the data pushed to the array!
-        year: i + 1,
+        year: year,
+        savingsEndOfYear: formatter.format(savingsEndOfYear),
         yearlyInterest: formatter.format(yearlyInterest),
-        savingsEndOfYear: formatter.format(currentSavings),
-        yearlyContribution: yearlyContribution,
+        toalInterest: yearlyInterest * expectedReturn,
         investedCapital: formatter.format(totalCapital),
       });
     }
@@ -47,7 +48,7 @@ function App() {
   return (
     <div>
       <Header />
-      <UserInput onSubmit={calculateHandler} />
+      <UserInput onCalculate={calculateHandler} />
       <ResultTable yearlyData={yearlyData} />
     </div>
   );

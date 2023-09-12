@@ -1,28 +1,38 @@
 import React, { useState } from "react";
 
-function UserInput({ onSubmit }) {
-  const [currentSavings, setCurrentSavings] = useState("");
-  const [yearlyContribution, setYearlyContribution] = useState("");
-  const [expectedReturn, setExpectedReturn] = useState("");
-  const [duration, setDuration] = useState("");
+const initialUserInput = {
+  currentSavings: 10000,
+  yearlyContribution: 1200,
+  expectedReturn: 7,
+  duration: 10,
+};
+
+function UserInput({ props }) {
+  const [userInput, setUserInput] = useState(initialUserInput);
+
+  // const [currentSavings, setCurrentSavings] = useState("");
+  // const [yearlyContribution, setYearlyContribution] = useState("");
+  // const [expectedReturn, setExpectedReturn] = useState("");
+  // const [duration, setDuration] = useState("");
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const formData = {
-      currentSavings,
-      yearlyContribution,
-      expectedReturn,
-      duration,
-    };
-    onSubmit(formData);
+    event.preventDefault(); // Stop page reload
+    props.onCalculate(userInput);
   };
 
   const handleReset = () => {
-    setCurrentSavings("");
-    setYearlyContribution("");
-    setExpectedReturn("");
-    setDuration("");
-    onSubmit("");
+    setUserInput({
+      initialUserInput,
+    });
+  };
+
+  const inputChangeHandler = (input, value) => {
+    setUserInput((prevInput) => {
+      return {
+        ...prevInput,
+        [input]: value,
+      };
+    });
   };
 
   return (
@@ -34,8 +44,10 @@ function UserInput({ onSubmit }) {
             <input
               type="number"
               id="current-savings"
-              value={currentSavings}
-              onChange={(e) => setCurrentSavings(e.target.value)}
+              value={userInput.currentSavings}
+              onChange={(event) =>
+                inputChangeHandler("currentSavings", event.target.value)
+              }
             />
           </p>
           <p>
@@ -43,8 +55,10 @@ function UserInput({ onSubmit }) {
             <input
               type="number"
               id="yearly-contribution"
-              value={yearlyContribution}
-              onChange={(e) => setYearlyContribution(e.target.value)}
+              value={userInput.yearlyContribution}
+              onChange={(event) =>
+                inputChangeHandler("yearlyContribution", event.target.value)
+              }
             />
           </p>
         </div>
@@ -54,8 +68,10 @@ function UserInput({ onSubmit }) {
             <input
               type="number"
               id="expected-return"
-              value={expectedReturn}
-              onChange={(e) => setExpectedReturn(e.target.value)}
+              value={userInput.expectedReturn}
+              onChange={(event) =>
+                inputChangeHandler("expectedReturn", event.target.value)
+              }
             />
           </p>
           <p>
@@ -63,8 +79,10 @@ function UserInput({ onSubmit }) {
             <input
               type="number"
               id="duration"
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
+              value={userInput.duration}
+              onChange={(event) =>
+                inputChangeHandler("duration", event.target.value)
+              }
             />
           </p>
         </div>

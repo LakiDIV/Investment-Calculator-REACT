@@ -20,7 +20,7 @@ function ResultTable({ yearlyData }) {
                 <td>{yearlyValues.year}</td>
                 <td>{yearlyValues.savingsEndOfYear}</td>
                 <td>{yearlyValues.yearlyInterest}</td>
-                <td>{yearlyValues.yearlyContribution}</td>
+                <td>{yearlyValues.toalInterest}</td>
                 <td>{yearlyValues.investedCapital}</td>
               </tr>
             ))}
