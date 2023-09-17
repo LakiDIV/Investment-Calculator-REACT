@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
 const initialUserInput = {
-  currentSavings: 10000,
-  yearlyContribution: 1200,
-  expectedReturn: 7,
-  duration: 10,
+  currentSavings: 0,
+  yearlyContribution: 0,
+  expectedReturn: 0,
+  duration: 0,
 };
 
-function UserInput({ props }) {
+function UserInput(props) {
   const [userInput, setUserInput] = useState(initialUserInput);
 
   // const [currentSavings, setCurrentSavings] = useState("");
@@ -21,9 +21,8 @@ function UserInput({ props }) {
   };
 
   const handleReset = () => {
-    setUserInput({
-      initialUserInput,
-    });
+    setUserInput(initialUserInput);
+    props.onCalculate(userInput);
   };
 
   const inputChangeHandler = (input, value) => {

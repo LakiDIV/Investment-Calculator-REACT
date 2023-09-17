@@ -4,52 +4,53 @@ import UserInput from "./components/UserInput/UserInput";
 import ResultTable from "./components/ResultTable/ResultTable";
 
 function App() {
-  const [yearlyData, setYearlyData] = useState([]);
+  const [userInput, setUserInput] = useState(null);
 
   const calculateHandler = (userInput) => {
-    // You might not directly want to bind it to the submit event on the form though...
+    setUserInput(userInput);
+  };
 
-    const yearlyData = []; // per-year results
+  const yearlyData = [];
 
-    let currentSavings = +userInput["currentSavings"]; // feel free to change the shape of this input object!
-    const yearlyContribution = +userInput["yearlyContribution"]; // as mentioned: feel free to change the shape...
+  if (userInput) {
+    let currentSavings = +userInput["currentSavings"];
+    const yearlyContribution = +userInput["yearlyContribution"];
     const expectedReturn = +userInput["expectedReturn"] / 100;
     const duration = +userInput["duration"];
-    let totalCapital = 0;
 
-    const formatter = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-
-    // The below code calculates yearly results (total savings, interest etc)
+    let totalSavings = currentSavings;
+    let totalInterest = 0;
+    let investedCapital = currentSavings;
     for (let i = 0; i < duration; i++) {
       const year = i + 1;
-      const yearlyInterest = currentSavings * expectedReturn;
-      currentSavings += yearlyInterest + yearlyContribution;
-      const savingsEndOfYear = currentSavings + yearlyContribution;
-      totalCapital = currentSavings + savingsEndOfYear * year;
+      
+      investedCapital += yearlyContribution;
+
+      const yearlyInterest = totalSavings * expectedReturn;
+
+      totalSavings += yearlyContribution + yearlyInterest;
+      totalInterest += yearlyInterest;
+
       yearlyData.push({
-        // feel free to change the shape of the data pushed to the array!
         year: year,
-        savingsEndOfYear: formatter.format(savingsEndOfYear),
-        yearlyInterest: formatter.format(yearlyInterest),
-        toalInterest: yearlyInterest * expectedReturn,
-        investedCapital: formatter.format(totalCapital),
+        savingsEndOfYear: totalSavings,
+        yearlyInterest: yearlyInterest,
+        toalInterest: totalInterest,
+        investedCapital: investedCapital,
       });
     }
+  }
 
-    // do something with yearlyData ...
-    setYearlyData(yearlyData);
-  };
+  console.log(yearlyData);
 
   return (
     <div>
       <Header />
       <UserInput onCalculate={calculateHandler} />
-      <ResultTable yearlyData={yearlyData} />
+
+      {userInput && <ResultTable data={yearlyData} />}
+
+      {/* <ResultTable yearlyData={userInput} /> */}
     </div>
   );
 }
